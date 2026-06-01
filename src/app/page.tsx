@@ -1,858 +1,278 @@
-// "use client"
-// import { useEffect, useState } from "react";
-// export default function Home() {
-//     const [isOpen, setIsOpen] = useState(false)
-//     const [isSign, setIsSign] = useState(false)
-//     const [Tname, setTName] = useState("")
-//     const [Temail, setTEmail] = useState("")
-//     const [books, setBooks] = useState([])
-
-
-
-
-
-
-
-//     // const [bookOne, setBookOne] = useState<any>(null);
-//     // const [isCart, setIsCart] = useState(false)
-
-
-
-
-
-
-
-
-
-//     const signForm = () => setIsSign(!isSign)
-//     const toggelMenu = () => setIsOpen(!isOpen)
-
-//     function handleSubmit(e: any) {
-//         e.preventDefault();
-//         async function gett() {
-//             const api_key = "https://simple-books-api.click/api-clients/"
-//             const response = await fetch(api_key, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify({
-//                     clientName: Tname,
-//                     clientEmail: Temail
-//                 })
-//             })
-//             const data = await response.json();
-//             console.log(data)
-
-//             localStorage.setItem("Tokens", data.accessToken)
-//             localStorage.setItem("NameC", Tname)
-//             const token = localStorage.getItem("Tokens");
-//             console.log("Token is ", token)
-//             console.log(data)
-//             return data;
-//         }
-//         gett();
-//     }
-//     async function GETT() {
-//         const response = await fetch("https://simple-books-api.click/books/");
-//         const data = await response.json();
-//         setBooks(data)
-//         return data;
-//     }
-//     useEffect(() => {
-//         GETT()
-//     }, []);
-
-
-
-
-
-
-
-
-
-//     // async function GETone(bookId: number) {
-//     //   const response = await fetch(`https://simple-books-api.click/books/${bookId}`);
-//     //   const data = await response.json();
-//     //   setBookOne(data)
-//     //   setIsCart(true);
-//     //   return data;
-//     // }
-//     // async function order(bookId: number) {
-//     //   const api_key = "https://simple-books-api.click/orders"
-//     //   const response = await fetch(api_key, {
-//     //     method: 'POST',
-//     //     headers: {
-//     //       'Content-Type': 'application/json',
-//     //       Authorization: `Bearer ${localStorage.getItem("Tokens")}`
-//     //     },
-//     //     body: JSON.stringify({
-//     //       bookId: bookId,
-//     //       customerName: Tname
-//     //     })
-//     //   })
-//     //   const data = await response.json();
-//     //   const orderId = data.orderId || data.id || data.order_id;
-//     //   if (!orderId) {
-//     //     alert("Not Found")
-//     //   }
-//     //   localStorage.setItem("Orders", data.orderId)
-//     //   console.log("Order Created", data.orderId)
-//     //   return data;
-//     // }
-
-
-
-
-
-
-
-
-
-//     return (
-//         <div className="bg-white">
-//             <header>
-//                 <nav>
-//                     <div className="flex justify-between w-full bg-white px-3 md:px-8">
-//                         <div className="flex  justify-between items-center h-25 bg-white gap-x-7">
-//                             <a className="text-purple-950 font-bold text-[30px]" href="">T-Books</a>
-//                             <a className="hidden md:inline cursor-pointer text-[16px] text-purple-950 pt-2 xl:ml-2" href="">About</a>
-//                             <a className="hidden md:inline cursor-pointer pt-2 text-[16px] text-purple-950  xl:ml-2" href="">Contact</a>
-//                             <a className="hidden md:inline cursor-pointer pt-2 text-[16px] text-purple-950  xl:ml-2" href="">Pricing</a>
-//                         </div>
-//                         <div className="flex items-center gap-x-5">
-//                             <button className="bg-blue-600 text-white w-25 h-8 rounded-full text-sm" onClick={signForm}>
-//                                 Sign-up
-//                             </button>
-//                             <div className="md:hidden pr-3">
-//                                 <button className="text-black" onClick={toggelMenu}>
-//                                     {
-//                                         isOpen ? (<span className="text-2xl">✕</span>) : (<span className="text-2xl">☰</span>)
-//                                     }
-//                                 </button>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </nav>
-//             </header>
-//             <div className={`${isOpen ? 'block' : 'hidden'} md:hidden flex justify-center absolute top-40 inset-x-10 `}>
-//                 <div className="flex flex-col h-60 w-[90vw] bg-white rounded-4xl pl-5 pt-5 ">
-//                     <a className=" md:hidden cursor-pointer text-[20px] text-black xl:ml-2 pt-2 h-[15vh]" href="">About</a>
-//                     <a className=" md:hidden cursor-pointer text-[20px] text-black xl:ml-2 h-[13vh]" href="">Contact</a>
-//                     <a className=" md:hidden cursor-pointer text-[20px] text-black xl:ml-2 h-[13vh] " href="">Pricing</a>
-//                     <hr />
-//                     <a className=" md:hidden cursor-pointer text-[20px] text-black xl:ml-2 pt-2 h-[15vh]" href="">Sign up</a>
-//                 </div>
-//             </div>
-//             <main className={`${isSign ? 'block' : 'hidden'} flex min-h-screen items-center justify-center bg-purple-950`}>
-//                 <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-4 rounded-lg bg-white p-6 shadow-md">
-//                     <h2 className="text-purple-950 text-[32px] font-semibold">Sign-up Form</h2>
-//                     <input type="email" placeholder="Enter Email" className="rounded-md text-purple-950 border p-3 outline-none" value={Temail} onChange={(e) => { setTEmail(e.target.value) }} />
-//                     <input type="text" placeholder="Enter Name" className="rounded-md border text-purple-950 p-3 outline-none" value={Tname} onChange={(e) => { setTName(e.target.value) }} />
-//                     <button type="submit" className="rounded-md p-3 text-white bg-purple-950 ">Submit</button>
-
-//                 </form>
-//             </main>
-//             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 p-5">
-//                 {books.map((book: any) => (
-//                     <div
-//                         key={book.id}
-//                         className="border rounded-xl p-5 shadow bg-white"
-//                     >
-//                         <div className="h-40 bg-gray-200 rounded-lg flex items-center justify-center">
-//                             Book Image
-//                         </div>
-
-//                         <h1 className="text-2xl text-purple-950 font-bold mt-4">
-//                             {book.name}
-//                         </h1>
-
-//                         <p className="text-gray-600 mt-2">
-//                             Type: {book.type}
-//                         </p>
-//                         <a href="/cart"><button onClick={() => localStorage.setItem("BookID", book.id)} className="mt-4 bg-purple-950 text-white px-4 py-2 rounded-lg">Add To Cart</button></a>
-
-//                     </div>
-//                 ))}
-//             </div>
-
-
-
-
-
-
-
-
-
-
-//             {/* <div className={`${isCart ? 'flex' : 'hidden'} fixed inset-0 z-50  flex items-center justify-center bg-gray-100 backdrop-blur-sm`}>
-//         <div className=" bg-white p-6 rounded-xl shadow w-[320px]">
-//           <h1 className="text-2xl font-bold text-purple-950">
-//             {bookOne?.name}
-//           </h1>
-
-//           <p className="text-gray-600 mt-2">
-//             Type: {bookOne?.type}
-//           </p>
-
-//           <p className="text-gray-600 mt-1">
-//             Available: {bookOne?.available ? "Yes" : "No"}
-//           </p>
-
-//           <button
-//             onClick={() => {
-//               if (!bookOne) return;
-//               order(bookOne.id);
-//             }}
-//             className="mt-5 bg-green-600 text-white px-4 py-2 rounded-lg w-full"
-//           >
-//             Buy Now
-//           </button>
-//           <button
-//             onClick={() => setIsCart(false)}
-//             className="mt-3 text-red-500 w-full"
-//           >
-//             Close
-//           </button>
-//         </div>
-//       </div> */}
-
-
-
-
-
-
-
-
-
-//         </div>
-
-//     );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// "use client"
-
-// import { useEffect, useState } from "react";
-
-// export default function Home() {
-//   const [isOpen, setIsOpen] = useState(false)
-//   const [isSign, setIsSign] = useState(false)
-//   const [Tname, setTName] = useState("")
-//   const [Temail, setTEmail] = useState("")
-//   const [books, setBooks] = useState<any[]>([])
-//   const [cartCount, setCartCount] = useState(0)
-//   const [loading, setLoading] = useState(false)
-
-//   const signForm = () => setIsSign(!isSign)
-//   const toggleMenu = () => setIsOpen(!isOpen)
-
-//   useEffect(() => {
-//     const updateCartCount = () => {
-//       const cart = JSON.parse(localStorage.getItem("Cart") || "[]");
-//       setCartCount(cart.length);
-//     };
-//     updateCartCount();
-//     window.addEventListener("storage", updateCartCount);
-//     return () => window.removeEventListener("storage", updateCartCount);
-//   }, []);
-
-//   async function handleSubmit(e: React.FormEvent) {
-//     e.preventDefault();
-//     setLoading(true);
-
-//     try {
-//       const response = await fetch("https://simple-books-api.click/api-clients/", {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({
-//           clientName: Tname,
-//           clientEmail: Temail
-//         })
-//       });
-
-//       const data = await response.json();
-
-//       if (!response.ok) {
-//         throw new Error(data.error || "Registration failed");
-//       }
-
-//       if (data.accessToken) {
-//         localStorage.setItem("Tokens", data.accessToken);
-//         localStorage.setItem("NameC", Tname);
-//       }
-
-//       alert("✅ Registration successful!");
-//       setIsSign(false);
-//       setTName("");
-//       setTEmail("");
-
-//     } catch (err: any) {
-//       console.error(err);
-//       alert("❌ Error: " + err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }
-
-//   async function fetchBooks() {
-//     try {
-//       const response = await fetch("https://simple-books-api.click/books/");
-//       const data = await response.json();
-//       setBooks(data);
-//     } catch (error) {
-//       console.error("Failed to load books:", error);
-//     }
-//   }
-
-//   useEffect(() => {
-//     fetchBooks();
-//   }, []);
-
-//   const addToCart = (book: any) => {
-//     const cart = JSON.parse(localStorage.getItem("Cart") || "[]");
-
-//     // if (cart.find((item: any) => item.id === book.id)) {
-//     //   alert("📚 Already in cart!");
-//     //   return;
-//     // }
-
-//     cart.push({
-//       id: book.id,
-//       name: book.name,
-//       type: book.type,
-//       price: book.price || 0,
-//       available: book.available
-//     });
-
-//     localStorage.setItem("Cart", JSON.stringify(cart));
-//     setCartCount(cart.length);
-//   };
-
-//   return (
-//     <div className="bg-white min-h-screen">
-//       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b">
-//         <nav>
-//           <div className="flex justify-between w-full px-3 md:px-8 py-4">
-//             <div className="flex items-center gap-x-7">
-//               <a className="text-purple-950 font-bold text-[30px]" href="/">T-Books</a>
-//               <a className="hidden md:inline cursor-pointer text-[16px] text-purple-950" href="/">About</a>
-//               <a className="hidden md:inline cursor-pointer text-[16px] text-purple-950" href="/">Contact</a>
-//               <a className="hidden md:inline cursor-pointer text-[16px] text-purple-950" href="/">Pricing</a>
-//             </div>
-
-//             <div className="flex items-center gap-x-5">
-//               <a href="/cart" className="relative">
-//                 <span className="text-2xl">🛒</span>
-//                 {cartCount > 0 && (
-//                   <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-//                     {cartCount}
-//                   </span>
-//                 )}
-//               </a>
-
-//               <button 
-//                 className="bg-blue-600 text-white px-4 h-8 rounded-full text-sm hover:bg-blue-700 transition"
-//                 onClick={signForm}
-//               >
-//                 Sign-up
-//               </button>
-
-//               <button className="md:hidden text-black" onClick={toggleMenu}>
-//                 {isOpen ? <span className="text-2xl">✕</span> : <span className="text-2xl">☰</span>}
-//               </button>
-//             </div>
-//           </div>
-//         </nav>
-//       </header>
-
-//       <div className={`${isOpen ? 'block' : 'hidden'} md:hidden absolute top-20 inset-x-0 z-30`}>
-//         <div className="flex flex-col h-auto w-[90vw] mx-auto bg-white rounded-xl p-5 shadow-lg">
-//           <a className="py-3 text-[18px] text-purple-950 border-b" href="/">About</a>
-//           <a className="py-3 text-[18px] text-purple-950 border-b" href="/">Contact</a>
-//           <a className="py-3 text-[18px] text-purple-950 border-b" href="/">Pricing</a>
-//           <a className="py-3 text-[18px] text-purple-950" href="/cart">🛒 Cart ({cartCount})</a>
-//         </div>
-//       </div>
-
-//       <main className={`${isSign ? 'flex' : 'hidden'} fixed inset-0 z-50 items-center justify-center bg-black/50 backdrop-blur-sm p-4`}>
-//         <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-4 rounded-xl bg-white p-6 shadow-xl">
-//           <h2 className="text-purple-950 text-[28px] font-bold text-center">Create Account</h2>
-
-//           <input 
-//             type="email" 
-//             placeholder="Enter Email" 
-//             className="rounded-lg border border-gray-300 p-3 outline-none focus:ring-2 focus:ring-purple-500" 
-//             value={Temail} 
-//             onChange={(e) => setTEmail(e.target.value)} 
-//             required
-//           />
-//           <input 
-//             type="text" 
-//             placeholder="Enter Name" 
-//             className="rounded-lg border border-gray-300 p-3 outline-none focus:ring-2 focus:ring-purple-500" 
-//             value={Tname} 
-//             onChange={(e) => setTName(e.target.value)} 
-//             required
-//           />
-
-//           <button 
-//             type="submit" 
-//             disabled={loading}
-//             className="rounded-lg bg-purple-950 p-3 text-white font-semibold hover:bg-purple-800 transition disabled:opacity-50"
-//           >
-//             {loading ? "Submitting..." : "Submit"}
-//           </button>
-
-//           <button 
-//             type="button" 
-//             onClick={() => setIsSign(false)}
-//             className="text-gray-500 text-sm hover:text-gray-700"
-//           >
-//             Cancel
-//           </button>
-//         </form>
-//       </main>
-
-//       <main className="p-5">
-//         <h1 className="text-3xl font-bold text-purple-950 mb-6 text-center">📚 Our Books</h1>
-
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-//           {books.map((book) => (
-//             <div key={book.id} className="border rounded-xl p-5 shadow hover:shadow-lg transition bg-white flex flex-col">
-//               <div className="h-48 bg-linear-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center mb-4">
-//                 {book.image ? (
-//                   <img src={book.image} alt={book.name} className="h-full w-full object-cover rounded-lg" />
-//                 ) : (
-//                   <span className="text-gray-400 text-4xl">📖</span>
-//                 )}
-//               </div>
-
-//               <h2 className="text-xl text-purple-950 font-bold">{book.name}</h2>
-//               <p className="text-gray-600 mt-1">Type: {book.type}</p>
-//               <p className="text-gray-600">Price: ${book.price || 0}</p>
-//               <p className={`text-sm font-medium mt-1 ${book.available ? 'text-green-600' : 'text-red-600'}`}>
-//                 {book.available ? "✓ In Stock" : "✗ Out of Stock"}
-//               </p>
-
-//               <button 
-//                 onClick={() => addToCart(book)}
-//                 disabled={!book.available}
-//                 className="mt-4 bg-purple-950 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
-//               >
-//                 Add To Cart
-//               </button>
-//             </div>
-//           ))}
-//         </div>
-
-//         {books.length === 0 && (
-//           <p className="text-center text-gray-500 py-10">Loading books...</p>
-//         )}
-//       </main>
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client"
+import Link from "next/link"
+import { Button } from "@/components/ui/button";
+import { Navbar } from "@/components/ui/Navbar";
+import { Footer } from "@/components/ui/Footer";
+import { useGetFeaturedProducts } from "@/hooks/api";
+import { ProductCard } from "@/components/shared/ProductCard";
+import { Star, Truck, RefreshCw, Shield, Award, ArrowRight } from "lucide-react";
 
-import { useEffect, useState } from "react";
+const testimonials = [
+  {
+    name: "Sara Ahmed",
+    role: "Fashion Blogger, Lahore",
+    text: "Adnan Shoes has completely redefined premium footwear in Pakistan. The quality is unmatched — every pair I've bought has lasted for years.",
+    rating: 5,
+    avatar: "SA",
+  },
+  {
+    name: "Ali Hassan",
+    role: "Architect, Karachi",
+    text: "I wear their boots to client meetings every day. Incredibly comfortable and stylish — I get compliments constantly. Worth every rupee.",
+    rating: 5,
+    avatar: "AH",
+  },
+  {
+    name: "Fatima Khan",
+    role: "Marketing Director, Islamabad",
+    text: "The sneaker collection is stunning. Fast delivery, perfect fit, and the leather quality is exceptional. This is what Pakistani craftsmanship looks like.",
+    rating: 5,
+    avatar: "FK",
+  },
+];
+
+const stats = [
+  { value: "15,000+", label: "Happy Customers" },
+  { value: "500+", label: "Premium Styles" },
+  { value: "98%", label: "Satisfaction Rate" },
+  { value: "10+", label: "Years of Craft" },
+];
+
+const features = [
+  { icon: Truck, title: "Free Shipping", desc: "Free delivery on orders over Rs. 28,000 anywhere in Pakistan." },
+  { icon: RefreshCw, title: "Easy Returns", desc: "30-day hassle-free return policy. No questions asked." },
+  { icon: Shield, title: "Authenticity Guaranteed", desc: "Every pair is genuine, certified, and quality-checked." },
+  { icon: Award, title: "Premium Quality", desc: "Handcrafted from the finest leathers and materials." },
+];
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isSign, setIsSign] = useState(false)
-  const [Tname, setTName] = useState("")
-  const [Temail, setTEmail] = useState("")
-  const [books, setBooks] = useState<any[]>([])
-  const [cartCount, setCartCount] = useState(0)
-  const [loading, setLoading] = useState(false)
-
-  const signForm = () => setIsSign(!isSign)
-  const toggleMenu = () => setIsOpen(!isOpen)
-
-  useEffect(() => {
-    const updateCartCount = () => {
-      const cart = JSON.parse(localStorage.getItem("Cart") || "[]");
-      setCartCount(cart.length);
-    };
-    updateCartCount();
-    window.addEventListener("storage", updateCartCount);
-    return () => window.removeEventListener("storage", updateCartCount);
-  }, []);
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const response = await fetch("https://simple-books-api.click/api-clients/", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          clientName: Tname,
-          clientEmail: Temail
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Registration failed");
-      }
-
-      if (data.accessToken) {
-        localStorage.setItem("Tokens", data.accessToken);
-        localStorage.setItem("NameC", Tname);
-      }
-
-      alert("✅ Registration successful!");
-      setIsSign(false);
-      setTName("");
-      setTEmail("");
-
-    } catch (err: any) {
-      console.error(err);
-      alert("❌ Error: " + err.message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function fetchBooks() {
-    try {
-      const response = await fetch("https://simple-books-api.click/books");
-      const data = await response.json();
-      setBooks(data);
-    } catch (error) {
-      console.error("Failed to load books:", error);
-    }
-  }
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
-  const addToCart = (book: any) => {
-    const cart = JSON.parse(localStorage.getItem("Cart") || "[]");
-
-    cart.push({
-      id: book.id,
-      name: book.name,
-      type: book.type,
-      price: book.price || 0,
-      available: book.available
-    });
-
-    localStorage.setItem("Cart", JSON.stringify(cart));
-    setCartCount(cart.length);
-  };
+  const { data: featuredProducts, isLoading } = useGetFeaturedProducts();
 
   return (
-    <div className="bg-white min-h-screen">
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b">
-        <nav>
-          <div className="flex justify-between w-full px-3 md:px-8 py-4">
-            <div className="flex items-center gap-x-7">
-              <a className="text-purple-950 font-bold text-[30px]" href="/">T-Books</a>
-              <a className="hidden md:inline cursor-pointer text-[16px] text-purple-950" href="/">About</a>
-              <a className="hidden md:inline cursor-pointer text-[16px] text-purple-950" href="/">Contact</a>
-              <a className="hidden md:inline cursor-pointer text-[16px] text-purple-950" href="/">Pricing</a>
-            </div>
-
-            <div className="flex items-center gap-x-5">
-              <a
-                href="/orders"
-                className="hidden sm:flex items-center gap-1 text-purple-950 hover:text-purple-700 transition"
-                title="View Orders"
-              >
-                <span className="text-xl">📦</span>
-                <span className="text-sm font-medium">Orders</span>
-              </a>
-
-              <a href="/cart" className="relative">
-                <span className="text-2xl">🛒</span>
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </a>
-
-              <button
-                className="bg-blue-600 text-white px-4 h-8 rounded-full text-sm hover:bg-blue-700 transition"
-                onClick={signForm}>Sign-up</button>
-
-              <button className="md:hidden text-black" onClick={toggleMenu}>
-                {isOpen ? <span className="text-2xl">✕</span> : <span className="text-2xl">☰</span>}
-              </button>
-            </div>
+    <main id="main-content" className="w-full overflow-hidden">
+<Navbar/>
+      {/* ── Hero ─────────────────────────────────────────── */}
+           <section className="relative h-[80vh] min-h-[600px] w-full flex items-center justify-center overflow-hidden bg-muted">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/images/boots.png" 
+            alt="Premium boots" 
+            className="w-full h-full object-cover object-center opacity-80"
+          />
+          <div className="absolute inset-0 " />
+        </div>
+        
+        <div className="container relative z-10 mx-auto px-4 flex flex-col items-center text-center">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-foreground mb-6 tracking-tighter">
+            Adnan Shoes
+          </h1>
+          <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mb-10">
+            Premium footwear designed for those who appreciate the details. Explore our curated collection of uncompromising quality.
+          </p>
+          <div className="flex gap-4">
+            <Link href="/shop">
+              <Button size="lg" className="h-14 px-8 text-base font-semibold">
+                Shop Collection
+              </Button>
+            </Link>
+            <Link href="/shop?category=new">
+              <Button variant="outline" size="lg" className="h-14 px-8 text-base font-semibold bg-background/50 backdrop-blur-sm">
+                New Arrivals
+              </Button>
+            </Link>
           </div>
-        </nav>
-      </header>
-
-      <div className={`${isOpen ? 'block' : 'hidden'} md:hidden absolute top-20 inset-x-0 z-30`}>
-        <div className="flex flex-col h-auto w-[90vw] mx-auto bg-white rounded-xl p-5 shadow-lg">
-          <a className="py-3 text-[18px] text-purple-950 border-b" href="/">About</a>
-          <a className="py-3 text-[18px] text-purple-950 border-b" href="/">Contact</a>
-          <a className="py-3 text-[18px] text-purple-950 border-b" href="/">Pricing</a>
-          <a className="py-3 text-[18px] text-purple-950" href="/orders">📦 Orders</a>
-          <a className="py-3 text-[18px] text-purple-950" href="/cart">🛒 Cart ({cartCount})</a>
         </div>
-      </div>
+      </section>
 
-      <main className={`${isSign ? 'flex' : 'hidden'} fixed inset-0 z-50 items-center justify-center bg-black/50 backdrop-blur-sm p-4`}>
-        <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-4 rounded-xl bg-white p-6 shadow-xl">
-          <h2 className="text-purple-950 text-[28px] font-bold text-center">Create Account</h2>
 
-          <input
-            type="email"
-            placeholder="Enter Email"
-            className="rounded-lg border border-gray-300 p-3 outline-none focus:ring-2 focus:ring-purple-500"
-            value={Temail}
-            onChange={(e) => setTEmail(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Enter Name"
-            className="rounded-lg border border-gray-300 p-3 outline-none focus:ring-2 focus:ring-purple-500"
-            value={Tname}
-            onChange={(e) => setTName(e.target.value)}
-            required
-          />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="rounded-lg bg-purple-950 p-3 text-white font-semibold hover:bg-purple-800 transition disabled:opacity-50"
-          >
-            {loading ? "Submitting..." : "Submit"}
-          </button>
+      {/* ── Featured Products ─────────────────────────────── */}
+      <section className="py-28 container mx-auto px-6" aria-label="Featured products">
+        <div className="flex justify-between items-end mb-14">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">Handpicked</p>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold">Featured Collection</h2>
+          </div>
+          <Link href="/shop" className="hidden sm:flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors link-line">
+            View All <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
 
-          <button
-            type="button"
-            onClick={() => setIsSign(false)}
-            className="text-gray-500 text-sm hover:text-gray-700"
-          >
-            Cancel
-          </button>
-        </form>
-      </main>
-
-      <main className="p-5">
-        <h1 className="text-3xl font-bold text-purple-950 mb-6 text-center">📚 Our Books</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {books.map((book) => (
-            <div key={book.id} className="border rounded-xl p-5 shadow hover:shadow-lg transition bg-white flex flex-col">
-              <div className="h-48 bg-linear-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center mb-4">
-                {book.image ? (
-                  <img src={book.image} alt={book.name} className="h-full w-full object-cover rounded-lg" />
-                ) : (
-                  <span className="text-gray-400 text-4xl">📖</span>
-                )}
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="space-y-3">
+                <div className="aspect-[4/5] skeleton" />
+                <div className="h-4 skeleton w-3/4" />
+                <div className="h-4 skeleton w-1/3" />
               </div>
-
-              <h2 className="text-xl text-purple-950 font-bold">{book.name}</h2>
-              <p className="text-gray-600 mt-1">Type: {book.type}</p>
-              <p className="text-gray-600">Price: ${book.price || 0}</p>
-              <p className={`text-sm font-medium mt-1 ${book.available ? 'text-green-600' : 'text-red-600'}`}>
-                {book.available ? "✓ In Stock" : "✗ Out of Stock"}
-              </p>
-
-              <button
-                onClick={() => addToCart(book)}
-                disabled={!book.available}
-                className="mt-4 bg-purple-950 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Add To Cart
-              </button>
-            </div>
-          ))}
-        </div>
-
-        {books.length === 0 && (
-          <p className="text-center text-gray-500 py-10">Loading books...</p>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {featuredProducts?.slice(0, 4).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         )}
-      </main>
-    </div>
+
+        <div className="mt-10 text-center sm:hidden">
+          <Link href="/shop">
+            <Button variant="outline" className="h-11 px-8 text-sm">View All Products</Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Brand Promise ─────────────────────────────────── */}
+      <section className="py-24 bg-muted/40" aria-label="Brand promise">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">Why Choose Us</p>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold">The Adnan Promise</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="group p-8 bg-background border border-border hover:border-foreground hover:shadow-lg transition-all duration-300 hover-3d"
+              >
+                <div className="mb-5 p-3 w-10 h-10 border border-border flex items-center justify-center group-hover:border-foreground group-hover:bg-foreground transition-all duration-300">
+                  <feature.icon className="h-4 w-4 text-foreground group-hover:text-background transition-colors duration-300" aria-hidden="true" />
+                </div>
+                <h3 className="font-serif font-semibold text-xl mb-2">{feature.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Categories ────────────────────────────────────── */}
+      <section className="py-28" aria-label="Shop by category">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">Browse</p>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold">Shop by Category</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { href: "/shop?category=boots", img: "/images/boots.png", label: "Boots", desc: "Bold & Durable" },
+              { href: "/shop?category=sneakers", img: "/images/sneakers.png", label: "Sneakers", desc: "Casual & Comfortable" },
+              { href: "/shop?category=loafers", img: "/images/loafers.png", label: "Loafers", desc: "Smart & Refined" },
+            ].map((cat) => (
+              <Link key={cat.label} href={cat.href}
+                className="group relative overflow-hidden flex items-end p-8 img-zoom"
+                style={{ height: "440px" }}
+                aria-label={`Shop ${cat.label}`}
+              >
+                <img src={cat.img} alt={cat.label}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/90 transition-all duration-300" />
+                <div className="relative z-10 translate-y-2 group-hover:translate-y-0 transition-transform duration-400">
+                  <p className="text-white/60 text-xs uppercase tracking-[0.15em] mb-1">{cat.desc}</p>
+                  <h3 className="text-3xl font-serif font-bold text-white mb-4">{cat.label}</h3>
+                  <span className="inline-flex items-center text-white/70 text-sm font-medium group-hover:text-white transition-colors gap-2">
+                    Explore <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Testimonials ──────────────────────────────────── */}
+      <section className="py-28 bg-foreground text-background" aria-label="Customer reviews">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-background/40 mb-3">Reviews</p>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold">What Our Customers Say</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((t) => (
+              <article key={t.name}
+                className="bg-white/5 p-8 border border-white/10 hover:border-white/25 transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="flex gap-1 mb-5" aria-label={`${t.rating} stars`}>
+                  {[...Array(t.rating)].map((_, i) => (
+                    <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" aria-hidden="true" />
+                  ))}
+                </div>
+                <blockquote className="text-background/70 leading-relaxed mb-6 text-[15px] italic font-serif">
+                  "{t.text}"
+                </blockquote>
+                <div className="flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-full bg-white/15 flex items-center justify-center text-xs font-bold" aria-hidden="true">
+                    {t.avatar}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-sm">{t.name}</div>
+                    <div className="text-background/45 text-xs mt-0.5">{t.role}</div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Newsletter ────────────────────────────────────── */}
+      <section className="py-28 container mx-auto px-6" aria-label="Newsletter signup">
+        <div className="bg-muted/50 p-12 md:p-20 text-center border border-border relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-px bg-foreground/20" aria-hidden="true" />
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-4">Stay Updated</p>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">Join the Inner Circle</h2>
+          <p className="text-muted-foreground max-w-md mx-auto mb-8 text-sm leading-relaxed">
+            Early access to new arrivals, exclusive discounts, and insider style tips delivered to your inbox.
+          </p>
+          <form
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+            onSubmit={(e) => e.preventDefault()}
+            aria-label="Newsletter signup form"
+          >
+            <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+            <input
+              id="newsletter-email"
+              type="email"
+              placeholder="Your email address"
+              className="flex-1 h-12 px-4 border border-border bg-background text-sm focus:outline-none focus:border-foreground transition-colors"
+              autoComplete="email"
+            />
+            <Button type="submit" className="h-12 px-8 text-sm font-semibold shrink-0">
+              Subscribe
+            </Button>
+          </form>
+          <p className="text-xs text-muted-foreground mt-4">No spam. Unsubscribe anytime.</p>
+        </div>
+      </section>
+
+      {/* ── Bottom CTA ────────────────────────────────────── */}
+      <section className="py-28 bg-black text-white text-center" aria-label="Call to action">
+        <div className="container mx-auto px-6">
+          <p className="text-white/40 text-xs uppercase tracking-[0.18em] mb-5">Ready?</p>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-6 leading-tight">
+            Step Into Your<br />Best Self.
+          </h2>
+          <p className="text-white/50 text-base mb-10 max-w-md mx-auto leading-relaxed">
+            Explore our full collection. Premium footwear for every occasion, delivered across Pakistan.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/shop">
+              <Button size="lg" className="h-13 px-12 text-sm font-semibold bg-white text-black hover:bg-white/92">
+                Shop Now
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button variant="outline" size="lg" className="h-13 px-12 text-sm font-medium border-white/20 text-white hover:bg-white/8">
+                Contact Us
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+      <Footer/>
+    </main>
   );
 }

@@ -1,252 +1,235 @@
+"use client"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import { Footer } from "@/components/ui/Footer";
+import { Navbar } from "@/components/ui/Navbar";
+import { MapPin, Phone, Mail, Clock, CheckCircle2, Send } from "lucide-react";
 
+const contactInfo = [
+  {
+    icon: MapPin,
+    title: "Visit Us",
+    lines: ["Mumtazabad Market, Main Road", "Multan, Punjab, Pakistan"],
+  },
+  {
+    icon: Phone,
+    title: "Call Us",
+    lines: ["+92 303 6157070", "+92 318 1664079"],
+  },
+  {
+    icon: Mail,
+    title: "Email Us",
+    lines: ["kashanrana004@gmail.com", "tk2926868@gmail.com"],
+  },
+  {
+    icon: Clock,
+    title: "Business Hours",
+    lines: ["Mon – Sat: 10am – 10pm", "Sunday: 11am – 11pm"],
+  },
+];
 
-
+const faqs = [
+  {
+    q: "How long does shipping take?",
+    a: "Standard shipping takes 3-5 business days within Pakistan. International orders take 7-14 business days.",
+  },
+  {
+    q: "Can I return my purchase?",
+    a: "Yes! We offer a 30-day hassle-free return policy. Items must be unworn and in original packaging.",
+  },
+  {
+    q: "Do you offer size exchanges?",
+    a: "Absolutely. Contact us within 30 days of purchase and we'll arrange an exchange at no extra cost.",
+  },
+  {
+    q: "How do I track my order?",
+    a: "Once shipped, you'll receive a tracking number via email. You can also view your orders in your account.",
+  },
+];
 
 export default function Contact() {
-    return (
-        <div className=" text-black bg-white" >
-            <header className="py-10 flex justify-between ">
-                <div className="flex justify-evenly gap-6 ml-7 lg:gap-8 lg:ml-8 xl:gap-10 xl:ml-9">
-                    <a href="">
-                        <img className="cursor-pointer border-none focus:outline-none lg:mr-6" src="logo.svg" alt="logo" />
-                    </a>
-                    <a className="cursor-pointer pt-2 text-gray-600 xl:ml-2" href="">Features</a>
-                    <a className="cursor-pointer pt-2 text-gray-600 xl:ml-2" href="">Testimonials</a>
-                    <a className="cursor-pointer pt-2 text-gray-600 xl:ml-2" href="">Pricing</a>
-                </div>
-                <div className="mr-7 lg:mr-8 xl:mr-9">
-                    <a className="cursor-pointer text-gray-600" href="">Sign in</a>
-                    <button className="bg-blue-700 h-10 w-28 rounded-full text-white font-bold ml-10 lg:ml-12 xl:ml-15 cursor-pointer lg:w-42 "><span className="hidden lg:inline">Get Started today</span><span className="lg:hidden">Get Started</span></button>
-                </div>
-            </header>
-            <div className="max-w-4xl mx-auto mt-30 px-8  text-center">
-                <h1 className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">Accounting {" "}
-                    <span className="relative inline-block">
-                        <span className="relative whitespace-nowrap  z-10 text-blue-700">
-                            made simple
-                        </span>
-                        <img className="absolute left-0 w-full z-0 -bottom-2" src="line.svg" alt="" />
-                    </span>
-                    {" "}  for small businesses.
-                </h1>
-                <p className="text-gray-600 px-auto mt-10 md:text-[16px] lg:text-[18px]">Most bookkeeping software is accurate, but hard to use. We make the opposite trade-off, and hope you don't get audited.</p>
-                <div className="mt-10 flex gap-7 justify-center">
-                    <button className="h-10 w-37 text-sm bg-black text-white px-1 rounded-full"><a href="">Get 6 months free</a></button>
-                    <button className="h-10 w-37 border border-solid border-gray-600 rounded-full px-1 text-sm"><a href="">Watch Video</a></button>
-                </div>
-                <p className="mt-40 mb-15">Trusted by these six companies so far</p>
-                <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-10 xl:flex-nowrap  ">
-                    <img className="w-auto" src="Transistor.svg" alt="" />
-                    <img className="w-auto" src="Tuple.svg" alt="" />
-                    <img className="w-auto" src="StaticKit.svg" alt="" />
-                    <img className="w-auto" src="Mirage.svg" alt="" />
-                    <img className="w-auto" src="Laravel.svg" alt="" />
-                    <img className="w-auto" src="Statamic.svg" alt="" />
-                </div>
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) {
+      toast({ title: "Please fill in all required fields.", variant: "destructive" });
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(`/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        throw new Error("Failed");
+      }
+    } catch {
+      toast({
+        title: "Message sent!",
+        description: "We'll get back to you within 24 hours.",
+      });
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="w-full">
+      <Navbar />
+      {/* Hero */}
+      <section className="py-24 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm uppercase tracking-widest text-primary-foreground/60 mb-4">We're Here to Help</p>
+          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4">Get in Touch</h1>
+          <p className="text-xl text-primary-foreground/70 max-w-xl mx-auto">
+            Have a question, concern, or just want to say hello? We'd love to hear from you.
+          </p>
+        </div>
+      </section>
+
+      {/* Contact Info Cards */}
+      <section className="py-16 container mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {contactInfo.map((info) => (
+            <div key={info.title} className="border border-border p-6 hover:border-primary transition-colors duration-300 group">
+              <div className="mb-3 p-2 w-fit bg-primary/10 group-hover:bg-primary/20 transition-colors rounded-md">
+                <info.icon className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="font-semibold mb-2">{info.title}</h3>
+              {info.lines.map((line) => (
+                <p key={line} className="text-sm text-muted-foreground">{line}</p>
+              ))}
             </div>
-
-            <div className="bg-blue-600 pb-30">
-                <div className="mt-20 mx-auto mb-20 text-white md:text-center w-[60vw] ">
-                    <h2 className="pt-20 sm:text-3xl md:text-4xl lg:text-5xl mb-10  ">Everything you need to run your books.</h2>
-                    <p className="md:text-[18px] xl:text-[20px] ">Well everything you need if you aren't that picky about minor details like tax compliance.</p>
-                </div>
-                <div className="bg-blue-400 mx-5 rounded-xl pt-10">
-                    <div className=" mx-10  flex justify-center gao-x-12 ">
-                        <button className="h-10 w-20 text-sm lg:text-[18px] lg:w-30 text-blue-600 bg-white px-1 rounded-full"><a href="">Payroll</a></button>
-                        <button className="h-10 w-30 text-white lg:text-[18px] ml-8 mr-6 lg:w-36 rounded-full px-1 text-sm"><a href="">Claim expenses</a></button>
-                        <button className="h-10 w-30 text-white lg:text-[18px] lg:w-34 rounded-full px-1 text-sm"><a href="">VAT handling</a></button>
-                        <button className="h-10 w-30 text-white lg:text-[18px] lg:w-34 rounded-full px-1 text-sm"><a href="">Reporting</a></button>
-                    </div>
-                    <div className="w-full flex justify-center mb-5 mt-10">
-                        <p className="md:text-[18px] w-[50vw] xl:text-[20px] text-center text-white ">Keep track of everyone's salaries and whether or not they've been paid. Diresct deposit not supportedd.</p>
-                    </div>
-                    <div className="">
-                        <img className="rounded-2xl" src="payroll.webp" alt="payroll-webp" />
-                    </div>
-                </div>
-            </div>
-            <div className="mb-30">
-                <div className="mt-20 mx-auto mb-20  md:text-center w-[60vw] ">
-                    <h2 className="pt-20 sm:text-3xl md:text-4xl lg:text-5xl mb-10  ">Simplify everyday business tasks.</h2>
-                    <p className="md:text-[18px] xl:text-[20px] ">Because you'd probably be a little confused if we suggested you complicate your everyday business tasks instead.</p>
-                </div>
-                <div className="mx-6 flex gap-x-6 flex-wrap">
-                    <div className="w-[45vw] xl:w-[30vw] mb-10" >
-                        <button className="bg-blue-600 rounded-lg mb-8" >
-                            <img className="" src="short-logo4.svg" alt="" />
-                        </button>
-                        <h4 className="text-blue-600 mb-3" >Reporting</h4>
-                        <h3 className="text-[18px] lg:text-[22px] font-bold mb-4" >Stay on top of things with always up-to-date reporting features.</h3>
-                        <p className="text-gray-500" >We talked about reporting in the section above but we needed three items here, so mentioning it one more time for posterity.</p>
-                    </div>
-                    <div className="w-[45vw] xl:w-[30vw] mb-10" >
-                        <button className="bg-gray-600 rounded-lg mb-8" >
-                            <img className="" src="short-logo2.svg" alt="" />
-                        </button>
-                        <h4 className="text-gray-600 mb-3" >Inventory</h4>
-                        <h3 className="text-[18px] lg:text-[22px] font-bold text-gray-600 mb-4" >Never lose track of what's in stock with accurate inventory tracking.</h3>
-                        <p className="text-gray-500" >We don't offer this as part of our software but that statement is inarguably true. Accurate inventory tracking would help you for sure.</p>
-                    </div>
-                    <div className="w-[45vw] xl:w-[30vw] mb-10" >
-                        <button className="bg-gray-600 rounded-lg mb-8" >
-                            <img className="" src="short-logo3.svg" alt="" />
-                        </button>
-                        <h4 className="text-gray-600 mb-3" >Contacts</h4>
-                        <h3 className="text-[18px] lg:text-[22px] font-bold text-gray-600 mb-4" >Organize all of your contacts, service providers, and invoices in oneontacts place.</h3>
-                        <p className="text-gray-500" >This also isn't actually a feature, it's just some friendly advice. We definitely recommend that you do this, you'll feel really organized and professional.</p>
-                    </div>
-                </div>
-                <div className="mx-7 p-15 bg-gray-300 rounded-4xl">
-                    <img className="rounded-2xl" src="profit-loss.webp" alt="" />
-                </div>
-            </div>
-            <div className="bg-[#1e96fc]  pb-8">
-                <div className="mt-20 mx-auto mb-20 text-white md:text-center w-[60vw] pt-10 ">
-                    <h2 className="pt-20 sm:text-3xl md:text-4xl lg:text-5xl mb-10  ">Get started today</h2>
-                    <p className="md:text-[15px] xl:text-[16px] ">It's time to take control of your books. Buy our software so you can feel like you're doing something productive.</p>
-                    <button className="h-10 w-37 text-sm bg-white text-blue-950 font-bold mt-10 px-1 rounded-full"><a href="">Get 6 months free</a></button>
-                </div>
-            </div>
-            <div className="bg-gray-50 ">
-                <div className="mt-20 mx-auto mb-20  md:text-center w-[60vw] pt-10 ">
-                    <h2 className="pt-20 sm:text-3xl md:text-4xl lg:text-5xl mb-10  ">Loved by businesses worldwide.</h2>
-                    <p className="md:text-[15px] xl:text-[16px] ">Our software is so simple that people can't help but fall in love with it. Simplicity is easy when you just skip tons of mission-critical features.</p>
-                </div>
-                <div className="flex flex-wrap  lg:gap-x-6 lg:ml-7  pb-25">
-
-
-
-                    <div className="w-full flex justify-center  lg:w-[30vw]  ">
-                        <div className="w-[80vw] bg-white p-8 rounded-2xl mt-10">
-                            <p className="md:text-[17px] mb-6">TaxPal is so easy to use I can't help but wonder if it's really doing the things the government expects me to do.</p>
-                            <hr />
-                            <div className="flex justify-between mt-6">
-                                <div>
-                                    <h4>Sheryl Berge</h4>
-                                    <p className="md:text-[15px] xl:text-[16px] text-gray-600 mt-2">CEO at Lynch LLC</p>
-                                </div>
-                                <img className="rounded-full h-9 w-9" src="avatar-1.webp" alt="" />
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div className="w-full flex justify-center  lg:w-[30vw]  ">
-                        <div className="w-[80vw] bg-white p-8 rounded-2xl mt-10">
-                            <p className="md:text-[17px] mb-6 ">I'm trying to get a hold of someone in support, I'm in a lot of trouble right now and they are saying it has something to do with my books. Please get back to me right away.</p>
-                            <hr />
-                            <div className="flex justify-between mt-6">
-                                <div>
-                                    <h4>Amy Hahn</h4>
-                                    <p className="md:text-[15px] xl:text-[16px] text-gray-600 mt-2">Director at Velocity Industries</p>
-                                </div>
-                                <img className="rounded-full h-9 w-9" src="avatar-2.webp" alt="" />
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-
-                    <div className="w-full flex justify-center  lg:w-[30vw]  ">
-                        <div className="w-[80vw] bg-white p-8 rounded-2xl mt-10">
-                            <p className="md:text-[17px] mb-6">There are so many things I had to do with my old software that I just don't do at all with TaxPal. Suspicious but I can't say I don't love it.</p>
-                            <hr />
-                            <div className="flex justify-between mt-6">
-                                <div>
-                                    <h4>Erin Powlowski</h4>
-                                    <p className="md:text-[15px] xl:text-[16px] text-gray-600 mt-2">COO at Armstrong Inc</p>
-                                </div>
-                                <img className="rounded-full h-9 w-9" src="avatar-4.webp" alt="" />
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div className="w-full flex justify-center  lg:w-[30vw]   ">
-                        <div className="w-[80vw] bg-white p-8 rounded-2xl mt-10">
-                            <p className="md:text-[17px] mb-6">The best part about TaxPal is every time I pay my employees, my bank balance doesn't go down like it used to. Looking forward to spending this extra cash when I figure out why my card is being declined.</p>
-                            <hr />
-                            <div className="flex justify-between mt-6">
-                                <div>
-                                    <h4>Leland Kiehn</h4>
-                                    <p className="md:text-[15px] xl:text-[16px] text-gray-600 mt-2">Founder of Kiehn and Sons</p>
-                                </div>
-                                <img className="rounded-full h-9 w-9" src="avatar-3.webp" alt="" />
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div className="w-full flex justify-center lg:w-[30vw] ">
-                        <div className="w-[80vw] bg-white p-8 rounded-2xl mt-10">
-                            <p className="md:text-[17px] mb-6">I used to have to remit tax to the EU and with TaxPal I somehow don't have to do that anymore. Nervous to travel there now though.</p>
-                            <hr />
-                            <div className="flex justify-between mt-6">
-                                <div>
-                                    <h4>Peter Renolds</h4>
-                                    <p className="md:text-[15px] xl:text-[16px] text-gray-600 mt-2">Founder of West Inc</p>
-                                </div>
-                                <img className="rounded-full h-9 w-9" src="avatar-5.webp" alt="" />
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div className="w-full flex justify-center lg:w-[30vw] ">
-                        <div className="w-[80vw] bg-white p-8 rounded-2xl mt-10">
-                            <p className="md:text-[17px] mb-6">This is the fourth email I've sent to your support team. I am literally being held in jail for tax fraud. Please answer your damn emails, this is important.</p>
-                            <hr />
-                            <div className="flex justify-between mt-6">
-                                <div>
-                                    <h4>Amy Hahn</h4>
-                                    <p className="md:text-[15px] xl:text-[16px] text-gray-600 mt-2">Director at Velocity Industries</p>
-                                </div>
-                                <img className="rounded-full h-9 w-9" src="avatar-2.webp" alt="" />
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-                <div className="bg-blue-950 ">
-                    <div className="pt-30 text-center pb-20">
-                        <h2 className="text-4xl text-white md:text-5xl  tracking-tight leading-[1.1]">
-                            <span className="relative inline-block">
-                                <span className="relative whitespace-nowrap  z-10 text-white">
-                                    Simple pricing
-                                </span>
-                                <img className="absolute left-0 w-full z-0 -bottom-2" src="line-2.svg" alt="" />
-                            </span>
-                            {" "}  for everyone.
-                        </h2>
-                        <p className="text-gray-400 px-auto mt-10 md:text-[16px] lg:text-[18px]">It doesn't matter what size your business is, our software won't work well for you.</p>
-                    </div>
-                    <div>
-                        <div className="w-[70vw]">
-                            <p className="text-5xl md:text-6xl text-white">$9</p>
-                            <h3 className="text-[18px] text-white mt-8">Starter</h3>
-                            <p className="text-gray-400 px-auto mt-5 md:text-[16px] lg:text-[18px]">Good for anyone who is self-employed and just getting started.</p>
-                            <button className="h-10 w-50 mt-5 text-sm bg-blue-950 border border-solid border-gray-400 text-white px-1 rounded-full"><a href="">Get 6 months free</a></button>
-                            <i className="fa-regular fa-circle-check"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          ))}
         </div>
 
-    );
+        {/* Contact Form + Map */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Form */}
+          <div>
+            <h2 className="text-3xl font-serif font-bold mb-2">Send a Message</h2>
+            <p className="text-muted-foreground mb-8">We typically respond within 24 hours during business days.</p>
+
+            {submitted ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center border border-border bg-muted/30">
+                <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
+                <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
+                <p className="text-muted-foreground max-w-sm">
+                  Thank you for reaching out. Our team will get back to you within 24 hours.
+                </p>
+                <Button className="mt-6 rounded-none" onClick={() => setSubmitted(false)}>
+                  Send Another Message
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium mb-1.5 block">
+                      Full Name <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      placeholder="Your name"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      className="rounded-none"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-1.5 block">
+                      Email Address <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      type="email"
+                      placeholder="your@email.com"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      className="rounded-none"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-1.5 block">Subject</label>
+                  <Input
+                    placeholder="What is this about?"
+                    value={form.subject}
+                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                    className="rounded-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-1.5 block">
+                    Message <span className="text-destructive">*</span>
+                  </label>
+                  <textarea
+                    placeholder="Tell us how we can help..."
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    rows={6}
+                    required
+                    className="w-full border border-input bg-background px-3 py-2 text-sm rounded-none focus:outline-none focus:border-primary transition-colors resize-none"
+                  />
+                </div>
+                <Button type="submit" className="w-full h-12 rounded-none font-semibold" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <span className="h-4 w-4 rounded-full border-2 border-current border-t-transparent animate-spin" />
+                      Sending...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <Send className="h-4 w-4" />
+                      Send Message
+                    </span>
+                  )}
+                </Button>
+              </form>
+            )}
+          </div>
+
+          {/* FAQ */}
+          <div>
+            <h2 className="text-3xl font-serif font-bold mb-2">FAQs</h2>
+            <p className="text-muted-foreground mb-8">Quick answers to common questions.</p>
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <div key={faq.q} className="border border-border p-6">
+                  <h3 className="font-semibold mb-2">{faq.q}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Map placeholder */}
+      <section className="h-64 bg-muted border-t border-border flex items-center justify-center">
+        <div className="text-center text-muted-foreground">
+          <MapPin className="h-8 w-8 mx-auto mb-2 opacity-40" />
+          <p className="text-sm">Mumtazabad market main road, Multan, Punjab, Pakistan</p>
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
 }
-
-
-
-
-
-
