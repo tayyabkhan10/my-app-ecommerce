@@ -25,7 +25,6 @@ export default function Orders() {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <Navbar/>
         <h1 className="text-3xl font-serif font-bold mb-8">Order History</h1>
         <div className="space-y-4">
           {[1, 2, 3].map((i) => <div key={i} className="h-24 bg-muted animate-pulse rounded-md" />)}
@@ -47,7 +46,9 @@ export default function Orders() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <div>
+      <Navbar/>
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
       <h1 className="text-3xl font-serif font-bold mb-8">Order History</h1>
       
       <div className="space-y-4">
@@ -98,7 +99,9 @@ export default function Orders() {
           </div>
         ))}
       </div>
-      <Footer />
+      
+    </div>
+    <Footer />
     </div>
   );
 }

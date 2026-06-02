@@ -15,6 +15,20 @@
       "when": 1780298725211,
       "tag": "0001_large_kingpin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1780315156196,
+      "tag": "0002_spotty_mojo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1780319436888,
+      "tag": "0003_next_red_shift",
+      "breakpoints": true
     }
   ]
 }
