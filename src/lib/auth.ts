@@ -55,7 +55,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!user.emailVerified) throw new Error("Email not verified. Please verify your email first.");
 
-        return user;
+        return {
+          ...user,
+          role: user.role as "user" | "admin",
+        };
       },
     }),
   ],
@@ -72,7 +75,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           .where(eq(usersTable.id, user.id))
           .limit(1);
 
-        token.role = dbUser?.role ?? "user";
+        token.role = (dbUser?.role ?? "user") as "user" | "admin";
       }
 
       if (trigger === "update" && session?.name) {

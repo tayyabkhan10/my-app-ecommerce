@@ -304,4 +304,4 @@ export default function Journal() {
   );
 }
 
-export { ArticleDetail };
+// export { ArticleDetail };

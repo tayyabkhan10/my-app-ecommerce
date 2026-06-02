@@ -23,7 +23,7 @@ function Calendar({
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"]
 }) {
-  const defaultClassNames = getDefaultClassNames()
+  const defaultClassNames = getDefaultClassNames() as Record<string, string>
 
   return (
     <DayPicker
@@ -124,7 +124,7 @@ function Calendar({
         ),
         hidden: cn("invisible", defaultClassNames.hidden),
         ...classNames,
-      }}
+      } as any}
       components={{
         Root: ({ className, rootRef, ...props }) => {
           return (

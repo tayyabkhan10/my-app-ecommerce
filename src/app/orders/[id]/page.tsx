@@ -1,16 +1,20 @@
 'use client'; // ✅ Zaroori: kyunki isme hooks & client logic use ho raha hai
 
 import Link from "next/link"; // ✅ wouter se next/link par switch
+import { use } from "react";
 import { format } from "date-fns";
 import { useGetOrder } from "@/hooks/api";
 import { Button } from "@/components/ui/button";
+import { useParams } from "next/navigation"; // ✅ Next.js 15 ke liye useParams ki jagah params import karein
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Package, Truck, CheckCircle2, XCircle } from "lucide-react";
 import { formatPKR } from "@/lib/pkr";
 
 // ✅ useParams hata kar props se orderId accept karein
-export default function OrderDetail({ orderId }: { orderId: string }) {
+export default function OrderDetail({ params }: { params: Promise<{ id: string }> }) {
+  // 👈 3. params ko unwrap karein
+  const { id: orderId } = use(params); 
   const id = parseInt(orderId || "0", 10);
 
   const { data: order, isLoading, error } = useGetOrder(id);

@@ -68,7 +68,7 @@ const ChartContainer = React.forwardRef<
 })
 ChartContainer.displayName = "Chart"
 
-const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }): JSX.Element | null => {
+const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }): React.ReactElement | null => {
   const colorConfig = Object.entries(config).filter(
     ([, itemConfig]) => itemConfig.theme || itemConfig.color
   )
@@ -113,12 +113,15 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: "line" | "dot" | "dashed"
       nameKey?: string
       labelKey?: string
+      // allow optional label prop coming from Recharts payload
+      label?: any
+      labelClassName?: string
     }
 >(
   (
     {
       active,
-      payload,
+      payload = [],
       className,
       indicator = "dot",
       hideLabel = false,
@@ -130,6 +133,15 @@ const ChartTooltipContent = React.forwardRef<
       color,
       nameKey,
       labelKey,
+    }: TooltipProps<any, any> & React.ComponentProps<"div"> & {
+      hideLabel?: boolean
+      hideIndicator?: boolean
+      indicator?: "line" | "dot" | "dashed"
+      nameKey?: string
+      labelKey?: string
+      label?: any
+      labelClassName?: string
+      payload?: any[]
     },
     ref
   ) => {
@@ -193,10 +205,10 @@ const ChartTooltipContent = React.forwardRef<
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
           {payload
-            .filter((item): item is RechartsPrimitive.TooltipPayload[number] => 
+            .filter((item : any): item is RechartsPrimitive.TooltipPayload[number] => 
               item && typeof item === "object" && "type" in item && item.type !== "none"
             )
-            .map((item, index) => {
+            .map((item :any, index : number) => {
               const dataKey = item && typeof item === "object" && "dataKey" in item ? item.dataKey : undefined
               const name = item && typeof item === "object" && "name" in item ? item.name : undefined
               
@@ -275,7 +287,12 @@ const ChartLegend = RechartsPrimitive.Legend
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> &
-    Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+    {
+      // Recharts' LegendProps typing may not always align with this project's TS config,
+      // so use a narrow explicit shape for the props we consume.
+      payload?: any
+      verticalAlign?: any
+    } & {
       hideIcon?: boolean
       nameKey?: string
     }
@@ -299,36 +316,38 @@ const ChartLegendContent = React.forwardRef<
           className
         )}
       >
-        {payload
-          .filter((item): item is RechartsPrimitive.LegendPayload => 
-            item && typeof item === "object" && "type" in item && item.type !== "none"
-          )
-          .map((item) => {
-            const dataKey = item && typeof item === "object" && "dataKey" in item ? item.dataKey : undefined
-            const key = `${nameKey || dataKey || "value"}`
-            const itemConfig = getPayloadConfigFromPayload(config, item, key)
+        {Array.isArray(payload)
+          ? payload
+              .filter((item): item is RechartsPrimitive.LegendPayload =>
+                item && typeof item === "object" && "type" in item && item.type !== "none"
+              )
+              .map((item) => {
+                const dataKey = item && typeof item === "object" && "dataKey" in item ? item.dataKey : undefined
+                const key = `${nameKey || dataKey || "value"}`
+                const itemConfig = getPayloadConfigFromPayload(config, item, key)
 
-            return (
-              <div
-                key={String(item.value)}
-                className={cn(
-                  "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
-                )}
-              >
-                {itemConfig?.icon && !hideIcon ? (
-                  <itemConfig.icon />
-                ) : (
+                return (
                   <div
-                    className="h-2 w-2 shrink-0 rounded-[2px]"
-                    style={{
-                      backgroundColor: item.color,
-                    }}
-                  />
-                )}
-                {itemConfig?.label}
-              </div>
-            )
-          })}
+                    key={String(item.value)}
+                    className={cn(
+                      "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
+                    )}
+                  >
+                    {itemConfig?.icon && !hideIcon ? (
+                      <itemConfig.icon />
+                    ) : (
+                      <div
+                        className="h-2 w-2 shrink-0 rounded-[2px]"
+                        style={{
+                          backgroundColor: item.color,
+                        }}
+                      />
+                    )}
+                    {itemConfig?.label}
+                  </div>
+                )
+              })
+          : null}
       </div>
     )
   }

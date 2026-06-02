@@ -47,7 +47,7 @@ import { AdminLayout } from "@/components/admin/AdminLayout";
 import { formatPKR } from "@/lib/pkr";
 
 // ── Schema ─────────────────────────────────────────────────
-export const productSchema = z.object({
+ const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional().nullable(),
   price: z.coerce.number().min(0, "Price must be positive"),
@@ -62,7 +62,7 @@ export const productSchema = z.object({
   additionalImages: z.array(z.string().url()).optional().default([]),
 });
 
-export type ProductFormValues = z.infer<typeof productSchema>;
+ type ProductFormValues = z.infer<typeof productSchema>;
 
 // ── Cloudinary Upload ───────────────────────────────────────
 async function uploadToCloudinary(file: File): Promise<string> {
