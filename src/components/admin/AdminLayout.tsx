@@ -22,7 +22,12 @@ export function AdminLayout({ children }: { children: ReactNode }) {
   const { data: session } = useSession();
   const user = session?.user;
 
-  const handleSignOut = () => signOut({ callbackUrl: "/" });
+ const handleSignOut = async () => {
+
+  await fetch("/api/admin/auth/logout", { method: "POST" });
+
+  window.location.href = "/admin/login";
+};
 
   return (
     <div className="flex min-h-screen bg-gray-50">
