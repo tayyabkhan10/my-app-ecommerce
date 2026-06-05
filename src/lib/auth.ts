@@ -67,6 +67,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // On first sign in, user object is present
       if (user) {
         token.id = user.id;
+        token.email = user.email;
 
         // ✅ Always fetch fresh role from DB — don't trust the user object alone
         const [dbUser] = await db
@@ -76,7 +77,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           .limit(1);
 
         token.role = (dbUser?.role ?? "user") as "user" | "admin";
-      }
+      }else if (user.email) { // ✅ yeh poora else if add karo
+      const [dbUser] = await db
+        .select({ role: usersTable.role })
+        .from(usersTable)
+        .where(eq(usersTable.email, user.email))
+        .limit(1);
+
+      token.role = (dbUser?.role ?? "user") as "user" | "admin";
+    }
+  
 
       if (trigger === "update" && session?.name) {
         token.name = session.name;

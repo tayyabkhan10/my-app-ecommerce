@@ -5,7 +5,8 @@ import { getToken } from "next-auth/jwt";
 const ADMIN_EMAIL = "nailaanjum1530@gmail.com";
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  // const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET, secureCookie: process.env.NODE_ENV === "production" });
   const { pathname } = req.nextUrl;
 
   const isAdminRoute = pathname.startsWith("/admin") || pathname.startsWith("/api/admin");
